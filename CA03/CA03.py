@@ -84,7 +84,7 @@ C = list(map(celsius, F))
 
 lista = [ 1 , 3, 5, 6, 2, ] 
 
-
+# list functions with 
 sumlist = reduce(lambda x,y: x+y,lista)
 maxlist = reduce(lambda x,y: x if x>y else y,lista)
 minlist = reduce(lambda x,y: x if x<y else y,lista)

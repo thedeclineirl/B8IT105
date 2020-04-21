@@ -13,7 +13,7 @@ DEBUG = True
 import requests
 from bs4 import BeautifulSoup
 
-def getcoronadata():
+def getcoronar():
     headers = {
     'authority': 'www.worldometers.info',
     'cache-control': 'max-age=0',
@@ -28,10 +28,12 @@ def getcoronadata():
     'cookie': 'fsbotchecked=true; _ga=GA1.2.612961837.1584225072; _gid=GA1.2.1728409109.1584225072; _fsloc=?i=IE&c=Ennis; _fsuid=e847d8c5-a53e-43b2-a655-b1164a6d9031; __beaconTrackerID=lbaj4msm7; cookieconsent_status=dismiss; __cfduid=d1dd1fa78409d4f21607a427504d29ed91584354800; mobile_detect=desktop; __atuvc=2%7C11%2C54%7C12',
     'if-none-match': '"591748-1584735688;br"',
     }
+    return requests.get('https://www.worldometers.info/coronavirus/', headers=headers)
 
-    response = requests.get('https://www.worldometers.info/coronavirus/', headers=headers)
+def parse(data):
+    return BeautifulSoup(data.content, features="html.parser")
 
-    soup = BeautifulSoup(response.content, features="html.parser")
+def getdata(soup)
     #print(soup.prettify())
     data = []
     cells = soup.find_all('td')
@@ -55,6 +57,9 @@ def getcoronadata():
                 item = (value + ',')
                 data.append(item)
     return data
+
+
+
 
 # def removeHTML2(data):
 #     result = []

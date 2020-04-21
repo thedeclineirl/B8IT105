@@ -29,3 +29,5 @@ x = Car()
 x.setColour('Red')
 print(x.getColour())
 
+fleet = CarFleet()
+fleet.mainMenu()

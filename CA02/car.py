@@ -112,19 +112,18 @@ class CarFleet(object):
             self.__electric_cars.append(car)
 
     def mainMenu(self):
-        print('Welcome to Europcar')
+        print('Welcome to DBScar')
         rentedCar = None
-        msg = 'Would you like to rent a car R, return a car U, any key to quit?'
-        answer = raw_input(msg)
+        answer = input('Would you like to rent a car R, return a car U, any key to quit?')
         while answer == 'R' or answer == 'U':
             if answer == 'R':
-                type = raw_input('What car would you like to rent - P for petrol, E for electric')
+                type = input('What car would you like to rent - D for Diesel, E for electric, H for Hybrid, P for petrol')
                 rentedCar = self.rent(type)
             elif answer == 'U':
-                type = raw_input('What car would you like to return - P for petrol, E for electric')
+                type = input('What car would you like to return - D for Diesel, E for electric, H for Hybrid, P for petrol')
                 self.returnCar(type, rentedCar)
             self.checkCarsInStock()
-            answer = raw_input(msg)
+            answer = input('Would you like to rent a car R, return a car U, any key to quit?')
     
     
     
