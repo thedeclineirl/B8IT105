@@ -76,11 +76,25 @@ C = list(map(celsius, F))
 # answer = reduce(lambda x, y: x+y, [47, 11, 42, 13])
 # print(answer)
 
-f = lambda a,b: a if (a>b) else b
-ans01 = reduce(f, [47, 11, 42, 13]) 
-print('Ans 01 = '+str(ans01))
-ans02 =  reduce(lambda x, y: x+y, range(1, 101))
-print('Ans 02 = '+str(ans02))
+# f = lambda a,b: a if (a>b) else b
+# ans01 = reduce(f, [47, 11, 42, 13]) 
+# print('Ans 01 = '+str(ans01))
+# ans02 =  reduce(lambda x, y: x+y, range(1, 101))
+# print('Ans 02 = '+str(ans02))
+
+lista = [ 1 , 3, 5, 6, 2, ] 
+
+
+sumlist = reduce(lambda x,y: x+y,lista)
+maxlist = reduce(lambda x,y: x if x>y else y,lista)
+minlist = reduce(lambda x,y: x if x<y else y,lista)
+print(sumlist)
+print(maxlist)
+print(minlist)
+
+# using reduce to compute maximum element from list 
+
+maxlist = reduce(lambda x,y: x if x>y else y,lista)
 
 
 ## List comprehension with a filter     ##
@@ -95,7 +109,7 @@ def pythagorean_triplets(max_value):
                     values.append((x,y,z))
     return values
 
-print('Pythagorean Triplets: \n'+str(pythagorean_triplets(45)))
+# print('Pythagorean Triplets: \n'+str(pythagorean_triplets(45)))
 
 # print(pythagorean_triplets(30))
 # print(ans03) 
