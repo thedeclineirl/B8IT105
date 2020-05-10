@@ -6,7 +6,7 @@ Course ID:      B8IT105
 Assignment:     CA02
 
 Created:        2020-03-25
-Editted:        2020-04-11
+Editted:        2020-05-10
 '''
 
 '''
@@ -23,11 +23,24 @@ The rental status of the cars should be stored in some suitable storage mechanis
 Unit tests should be written to ensure that your application is adequately tested.
 '''
 
-
 from car import *
-x = Car()
-x.setColour('Red')
-print(x.getColour())
+from datetime import datetime
 
-fleet = CarFleet()
+def importFleet():
+    data = [line.strip() for line in open('log.csv', 'r')]
+    count = data[-1].replace(',','').split()
+    pcar = count[0]
+    dcar = count[1] 
+    hcar = count[2]
+    ecar = count[3]
+    return CarFleet(int(pcar),int(dcar),int(hcar),int(ecar))
+
+def exportFleet(fleet):
+    file = open('log.csv','a')
+    file.write('\n' + datetime.now().strftime("%Y-%m-%d - %H:%M:%S") + '\n')
+    file.write('pcar, dcar, hcar, ecar\n')
+    file.write(str(fleet))
+
+fleet = importFleet()
 fleet.mainMenu()
+exportFleet(fleet)
