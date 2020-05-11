@@ -11,8 +11,10 @@ Editted:        2020-05-11
 
 ##############################
 Brief
+Pandas Data Interpretation
 
 '''
+
 #Imports
 ##############################
 import numpy as np
