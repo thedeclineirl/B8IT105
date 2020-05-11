@@ -1,5 +1,12 @@
 '''
-Thomas Higgins
+Student Name:   Thomas Higgins
+Student Number: 10544739
+Course title:   Programming for Big Data         
+Course ID:      B8IT105
+Assignment:     CA02
+
+Created:        2020-03-25
+Editted:        2020-05-10
 '''
 
 class Car(object):
@@ -171,21 +178,3 @@ class CarFleet(object):
             self.checkCarsInStock()
             answer = input('Would you like to rent a car R, return a car U, any key to quit?')
             answer = answer.upper()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
