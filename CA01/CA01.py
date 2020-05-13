@@ -1,4 +1,5 @@
 '''
+Github:         thedeclineirl
 Student Name:   Thomas Higgins
 Student Number: 10544739
 Course title:   Programming for Big Data         
