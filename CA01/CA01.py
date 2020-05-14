@@ -7,111 +7,65 @@ Course ID:      B8IT105
 Assignment:     CA01
 
 Created:        2020-03-23
-Editted:        2020-04-11
+Editted:        2020-05-14
 '''
 DEBUG = True
 
 import requests
 from bs4 import BeautifulSoup
 
-def getcoronar():
+def get_soup():
     headers = {
-    'authority': 'www.worldometers.info',
-    'cache-control': 'max-age=0',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36',
-    'sec-fetch-dest': 'document',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-    'sec-fetch-site': 'none',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-user': '?1',
-    'accept-language': 'en-US,en;q=0.9',
-    'cookie': 'fsbotchecked=true; _ga=GA1.2.612961837.1584225072; _gid=GA1.2.1728409109.1584225072; _fsloc=?i=IE&c=Ennis; _fsuid=e847d8c5-a53e-43b2-a655-b1164a6d9031; __beaconTrackerID=lbaj4msm7; cookieconsent_status=dismiss; __cfduid=d1dd1fa78409d4f21607a427504d29ed91584354800; mobile_detect=desktop; __atuvc=2%7C11%2C54%7C12',
-    'if-none-match': '"591748-1584735688;br"',
+        'authority': 'www.worldometers.info',
+        'cache-control': 'max-age=0',
+        'upgrade-insecure-requests': '1',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
+        'sec-fetch-dest': 'document',
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'sec-fetch-site': 'none',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-user': '?1',
+        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+        'cookie': 'fsbotchecked=true; _ga=GA1.2.2130102090.1583759140; _fsuid=fec19354-3298-4c7f-9087-31194509f045; __beaconTrackerID=gqgupcm8z; __qca=P0-770848749-1583759142013; __gads=ID=8dc8fb1cf54bb6b6:T=1583759142:S=ALNI_MYJG68DHk_wjjHwF4MAx-XWAs4_6Q; cookieconsent_status=dismiss; __atssc=reddit^%^3B3; _fsloc=?i=IE^&c=Cork; __cfduid=d52a0fcc4f30047636dc108f4ad7342761584114420; _gid=GA1.2.464114386.1584890967; _fssid=4418d2a3-38e8-4577-8d3a-15b06505dc49; fssts=false; __atuvc=31^%^7C11^%^2C19^%^7C12^%^2C15^%^7C13; __atuvs=5e78fdeec0e3a842000',
+        'if-none-match': '^\\^8180999-1584987587;br^\\^',
     }
-    return requests.get('https://www.worldometers.info/coronavirus/', headers=headers)
+    response = requests.get('https://www.worldometers.info/coronavirus/', headers=headers, verify=True)
+    return BeautifulSoup(response.content, features="html.parser")
 
-def parse(data):
-    return BeautifulSoup(data.content, features="html.parser")
-
-def getdata(soup)
-    #print(soup.prettify())
-    data = []
+def wrangle_soup(soup):
     cells = soup.find_all('td')
-    print(len(cells))
-    print(cells[3])
+    if DEBUG:
+        print(len(cells))
+    continents = ['Africa','Asia','Australia/Oceania','Europe','North America','South America']
+    headers = '###, Country, Total Cases, New Cases,Total Deaths, New Deaths, Total Recovered,Active Cases, Serious/Critical,Cases/1M,Deaths/1M,Total Tests,Test/1M,Continent'
+    cleaned = []
+    all_count = 0
     for cell in cells:
-        for content in cell.contents:
-            value = str(content).strip().replace('\n', '')
-            # print(len(value))
-            # value = removeHTML(value)
-            # print(len(value))
-            if len(value) == 0:
-                # item = ('"0"'+',')
-                item = ('0'+',')
-                data.append(item)
-            elif value[0].lower() in 'abcdefghijklmnopqrstuvwxyz<':
-                item = ('\n' + value+',')
-                data.append(item)
-            else:
-                #item = ('"' + value + '"' + ',')
-                item = (value + ',')
-                data.append(item)
-    return data
+        if cell.string == None:
+            cleaned.append('0')
+        # elif cell.string == 'Total:':
+        elif cell.string == 'All':
+            if all_count==0:
+                cleaned = []
+                all_count +=1
+            cleaned.append(headers + '\n')
+        elif cell.string in continents:
+            cleaned.append(cell.string)
+            cleaned.append('\n')
+        else:
+            result = cell.string    
+            cleaned.append(result.replace(',',''))
+    return cleaned
 
-
-
-
-# def removeHTML2(data):
-#     result = []
-#     for line in data:
-#         index = 0
-#         clean = []
-#         while index <= len(line):
-#             # if start of HTML brackets, find 
-#             if line[index] == '<':
-#                 a = line[index+1]
-#                 if line[a] == '>':
-#                     index=a
-#                 else:
-#                     if DEBUG:
-#                         print('skip'+str(index))
-#                     a+=1
-#             else:
-#                 clean.append(line[index])
-#         result.append(clean)
-#     return result
-
-# def removeHTML(data):
-#     result = []
-#     index = 0
-#     while index < len(data):
-#         if data[index] == '<':
-#             a = index+1
-#             if data[a] == '>':
-#                 index=a
-#             else:
-#                 a += 1
-#                 if DEBUG:
-#                     print(index)
-#         else:
-#             result.append(data[index])
-#             index += 1
-#     return result
-
-
-# Export data to CSV
-def writecsv(filename, headers, data):
+def writecsv(filename,data):
     csv_file = open(filename,'w')
-    csv_file.write(headers,'\n')
     for line in data:
-        csv_file.write(str(line))
+        csv_file.write(str(line)+',')
     csv_file.close()
 
+def main():
+    soup = get_soup()
+    clean = wrangle_soup(soup)
+    writecsv("test.csv",clean)
 
-#####################################################
-
-data = getcoronadata()
-# print(data)
-data2 = data.strip()
-print(data2)
+main()
