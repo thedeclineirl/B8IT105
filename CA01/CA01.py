@@ -7,7 +7,7 @@ Course ID:      B8IT105
 Assignment:     CA01
 
 Created:        2020-03-23
-Editted:        2020-05-14
+Editted:        2020-05-15
 '''
 DEBUG = True
 
@@ -37,80 +37,86 @@ def wrangle_soup(soup):
     if DEBUG:
         print(len(cells))
     continents = ['Africa','Asia','Australia/Oceania','Europe','North America','South America']
-    
-    cleaned = []
+    wrangle = []
     line = []
     all_count = 0
     # 14 cells per line
     for cell in cells:
         if cell.string == None:
-            # cleaned.append('0')
+            # wrangle.append('0')
             line.append('0')
         elif cell.string == 'All':
             if all_count==0:
-                cleaned = []
+                wrangle = []
                 all_count +=1
-            # cleaned.append(headers + '\n')
         elif cell.string in continents:
-            # cleaned.append(cell.string)
-            # cleaned.append('\n')
             line.append(cell.string)
-            cleaned.append(line)
+            wrangle.append(line)
             line = []
         else:
             result = cell.string    
-            # cleaned.append(result.replace(',',''))
             line.append(result.replace(',',''))
-    return cleaned
+    return wrangle
 
-def wrangle_soup_by_line(soup):
-    cells = soup.find_all('td')
+def get_cells(soup):
+    cells_ = soup.find_all('td')
+    return cells_[29:]
+
+def wrangle_soup2(soup):
+    #remove cells from soup
+    cells_ = soup.find_all('td')
+
+    cells = cells_[29:]
     if DEBUG:
         print(len(cells))
-    continents = ['Africa','Asia','Australia/Oceania','Europe','North America','South America']
-    
-    cleaned = []
+    continents = ['Africa','Asia','Australia/Oceania','Europe','North America','South America','World']
+    wrangle = []
     line = []
     all_count = 0
-    # 14 cells per line
+
     for cell in cells:
         if cell.string == None:
-            # cleaned.append('0')
             line.append('0')
-        # elif cell.string == 'Total:'
+        elif cell.string == 'Total:':
+            return wrangle
         elif cell.string == 'All':
             if all_count==0:
-                cleaned = []
+                wrangle = []
                 all_count +=1
-            # cleaned.append(headers + '\n')
         elif cell.string in continents:
-        # elif len(line) == 14:
-            # cleaned.append(cell.string)
-            # cleaned.append('\n')
             line.append(cell.string)
-            cleaned.append(line)
+            wrangle.append(line)
             line = []
+        elif len(line) > 13:
+            wrangle.append(line)
+            line = []
+            line.append(cell.string)
         else:
-            result = cell.string    
+            result = cell.string
             line.append(result.replace(',',''))
-    return cleaned
+    return wrangle
+
+def clean(lines):
+    line = lines.pop()
+    if DEBUG:
+        print(line)
+    lines.insert(0,line[27:])
+    return lines
+
 
 def writecsv(filename,data):
-    headers = '###, Country, Total Cases, New Cases,Total Deaths, New Deaths, Total Recovered,Active Cases, Serious/Critical,Cases/1M,Deaths/1M,Total Tests,Test/1M,Continent'
+    headers = '###, Country/Ship, Total Cases, New Cases,Total Deaths, New Deaths, Total Recovered,Active Cases, Serious/Critical,Cases/1M,Deaths/1M,Total Tests,Test/1M,Continent'
     csv_file = open(filename,'w')
     csv_file.write(headers+'\n')
     for line in data:
-        if line[1] == 'Total:':
-            break
-        else:
-            for cell in line:
-                csv_file.write(str(cell)+', ')
+        for cell in line:
+            csv_file.write(str(cell)+', ')
         csv_file.write('\n')
     csv_file.close()
 
 def main():
     # soup = get_soup()
     # clean = wrangle_soup(get_soup())
-    writecsv("test3.csv",wrangle_soup(get_soup()))
+    writecsv("test4.csv",wrangle_soup2(get_soup()))
 
 main()
