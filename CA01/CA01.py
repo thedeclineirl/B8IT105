@@ -2,17 +2,19 @@
 Github:         thedeclineirl
 Student Name:   Thomas Higgins
 Student Number: 10544739
+
 Course title:   Programming for Big Data         
 Course ID:      B8IT105
 Assignment:     CA01
 
 Created:        2020-03-23
-Editted:        2020-05-15
+Editted:        2020-05-16
 '''
-DEBUG = True
-
+DEBUG = False
 import requests
 from bs4 import BeautifulSoup
+
+export_file = 'worldometer_corona.csv'
 
 def get_soup():
     headers = {
@@ -33,49 +35,18 @@ def get_soup():
     return BeautifulSoup(response.content, features="html.parser")
 
 def wrangle_soup(soup):
+    '''
+    Wrangle soup file into lines, get rid of junk & duplicate data scraped in get_soup()
+    '''
     cells = soup.find_all('td')
-    if DEBUG:
-        print(len(cells))
-    continents = ['Africa','Asia','Australia/Oceania','Europe','North America','South America']
-    wrangle = []
-    line = []
-    all_count = 0
-    # 14 cells per line
-    for cell in cells:
-        if cell.string == None:
-            # wrangle.append('0')
-            line.append('0')
-        elif cell.string == 'All':
-            if all_count==0:
-                wrangle = []
-                all_count +=1
-        elif cell.string in continents:
-            line.append(cell.string)
-            wrangle.append(line)
-            line = []
-        else:
-            result = cell.string    
-            line.append(result.replace(',',''))
-    return wrangle
-
-def get_cells(soup):
-    cells_ = soup.find_all('td')
-    return cells_[29:]
-
-def wrangle_soup2(soup):
-    #remove cells from soup
-    cells_ = soup.find_all('td')
-
-    cells = cells_[29:]
     if DEBUG:
         print(len(cells))
     continents = ['Africa','Asia','Australia/Oceania','Europe','North America','South America','World']
     wrangle = []
     line = []
     all_count = 0
-
     for cell in cells:
-        if cell.string == None:
+        if cell.string == None or cell.string == 'N/A':
             line.append('0')
         elif cell.string == 'Total:':
             return wrangle
@@ -90,22 +61,31 @@ def wrangle_soup2(soup):
         elif len(line) > 13:
             wrangle.append(line)
             line = []
-            line.append(cell.string)
+            txt = cell.string.replace(',','')
+            line.append(txt)
         else:
-            result = cell.string
-            line.append(result.replace(',',''))
+            txt = cell.string.replace(',','')
+            line.append(txt)
     return wrangle
 
-def clean(lines):
-    line = lines.pop()
-    if DEBUG:
-        print(line)
-    lines.insert(0,line[27:])
+def clean_soup(lines):
+    '''
+    Patch of a very specific bug  in wrangle_soup()-
+    There was a bug with the first line every time I ran this code
+    '''
+
+    # remove first 2 lines
+    line1 = lines.pop(0)
+    line2 = lines.pop(0)
+    # insert the last two items from line 1(Place & Country) at the beginning of line 2 
+    line2.insert(0,line1[-1])
+    line2.insert(0,line1[-2])
+    #insert new first line back at the front of lines
+    lines.insert(0,line2)
     return lines
 
-
-def writecsv(filename,data):
-    headers = '###, Country/Ship, Total Cases, New Cases,Total Deaths, New Deaths, Total Recovered,Active Cases, Serious/Critical,Cases/1M,Deaths/1M,Total Tests,Test/1M,Continent'
+def write_csv(filename,data):
+    headers = 'Rank, Country/Ship, Total Cases, New Cases,Total Deaths, New Deaths, Total Recovered,Active Cases, Serious/Critical,Cases/1M,Deaths/1M,Total Tests,Test/1M,Continent'
     csv_file = open(filename,'w')
     csv_file.write(headers+'\n')
     for line in data:
@@ -113,10 +93,9 @@ def writecsv(filename,data):
             csv_file.write(str(cell)+', ')
         csv_file.write('\n')
     csv_file.close()
+    print('Data scraped & exported to file: {0}'.format(filename))
 
 def main():
-    # soup = get_soup()
-    # clean = wrangle_soup(get_soup())
-    writecsv("test4.csv",wrangle_soup2(get_soup()))
+    write_csv(export_file,clean_soup(wrangle_soup(get_soup())))
 
 main()
