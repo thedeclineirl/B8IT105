@@ -1,12 +1,15 @@
 '''
+Github:         thedeclineirl
 Student Name:   Thomas Higgins
 Student Number: 10544739
+
+
 Course title:   Programming for Big Data         
 Course ID:      B8IT105
 Assignment:     CA02
 
 Created:        2020-03-25
-Editted:        2020-05-10
+Editted:        2020-05-17
 '''
 
 class Car(object):
@@ -164,17 +167,17 @@ class CarFleet(object):
     def mainMenu(self):
         print('Welcome to DBScar')
         rentedCar = None
-        answer = input('Would you like to rent a car R, return a car U, any key to quit?')
+        answer = input('Would you like to rent a car R, return a car U, any key to quit? ')
         answer = answer.upper()
         while answer == 'R' or answer == 'U':
             if answer == 'R':
-                type = input('What car would you like to rent - P for petrol, D for Diesel, H for Hybrid, E for electric')
+                type = input('What car would you like to rent - P for petrol, D for Diesel, H for Hybrid, E for electric: ')
                 type = type.upper()
                 rentedCar = self.rent(type)
             elif answer == 'U':
-                type = input('What car would you like to return - P for petrol, D for Diesel, H for Hybrid, E for electric')
+                type = input('What car would you like to return - P for petrol, D for Diesel, H for Hybrid, E for electric: ')
                 type = type.upper()
                 self.returnCar(type, rentedCar)
             self.checkCarsInStock()
-            answer = input('Would you like to rent a car R, return a car U, any key to quit?')
+            answer = input('Would you like to rent a car R, return a car U, any key to quit? ')
             answer = answer.upper()

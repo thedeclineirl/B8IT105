@@ -9,7 +9,7 @@ Course ID:      B8IT105
 Assignment:     CA02
 
 Created:        2020-03-25
-Editted:        2020-05-13
+Editted:        2020-05-17
 '''
 
 '''
@@ -29,7 +29,7 @@ Unit tests should be written to ensure that your application is adequately teste
 from car import *
 from datetime import datetime
 
-def importFleet():
+def import_fleet():
     data = [line.strip() for line in open('log.csv', 'r')]
     count = data[-1].replace(',','').split()
     pcar = count[0]
@@ -38,12 +38,12 @@ def importFleet():
     ecar = count[3]
     return CarFleet(int(pcar),int(dcar),int(hcar),int(ecar))
 
-def exportFleet(fleet):
+def export_fleet(fleet):
     file = open('log.csv','a')
     file.write('\n' + datetime.now().strftime("%Y-%m-%d - %H:%M:%S") + '\n')
     file.write('pcar, dcar, hcar, ecar\n')
     file.write(str(fleet))
 
-fleet = importFleet()
+fleet = import_fleet()
 fleet.mainMenu()
-exportFleet(fleet)
+export_fleet(fleet)
