@@ -7,7 +7,7 @@ Course ID:      B8IT105
 Assignment:     CA03
 
 Created:        2020-04-18
-Editted:        2020-04-21
+Editted:        2020-05-17
 ##############################
 
 ##############################
@@ -19,7 +19,7 @@ Each function should use the lessons learned in the map, reduce, filter, and gen
 '''
 #Imports
 ##############################
-import unittest
+import Calc import *
 from functools import reduce 
 
 
@@ -43,11 +43,10 @@ def celsius(t):
 temp = (36.5, 37, 37.5, 39)
 
 F = list(map(fahrenheit, temp))
-# print(F)
+print(F)
 C = list(map(celsius, F))
-# print(C)
+print(C)
 # print(list(map(lambda x: round(x,2),C)))
-
 
 # a = [1,2,3,4]
 # b = [17,12,11,10]
