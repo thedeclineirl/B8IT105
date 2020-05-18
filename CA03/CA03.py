@@ -17,7 +17,6 @@ Assignment 3 - 10% - 10 Functional Calculator with Map Reduce Filter & Generator
 For assignment 3 create a Calculator class and CalculatorTest class that will implement functionality from a calculator using lists.
 Each function should use the lessons learned in the map, reduce, filter, and generator lecture.
 '''
-#Imports
 ##############################
 import Calc import *
 from functools import reduce 
