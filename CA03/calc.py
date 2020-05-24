@@ -98,5 +98,3 @@ def list_get_neg(data):
     neg = list_neg(data)
     for i in neg:
         yield(i)
-
-
