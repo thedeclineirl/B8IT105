@@ -18,37 +18,59 @@ For assignment 3 create a Calculator class and CalculatorTest class that will im
 Each function should use the lessons learned in the map, reduce, filter, and generator lecture.
 '''
 ##############################
-import Calc import *
+from calc import *
 from functools import reduce 
 
-
-
 ##############################
+print(sub(25,5))
 
-class Calc():
-    #Basic maths functions with Lambda
-    add = lambda x,y: x+y
-    sub = lambda x,y: x-y
-    multi = lambda x,y: x*y
-    divide = lambda x,y: x/y
-
-    #advanced maths functions using map, reduce, filter & generator
-
-##      Map Function    ##
-def fahrenheit(t):
-    return ((float(9)/5)*t + 32)
-def celsius(t):
-    return (float(5)/9*(t - 32))
-temp = (36.5, 37, 37.5, 39)
-
-F = list(map(fahrenheit, temp))
+tempC = (36.5, 37, 37.5, 39)
+F = list_to_fahrenheit(tempC)
+# C = list_to_celcius(F)
 print(F)
-C = list(map(celsius, F))
-print(C)
-# print(list(map(lambda x: round(x,2),C)))
+# print(C)
 
 # a = [1,2,3,4]
-# b = [17,12,11,10]
+b = [17,12,11,10]
+# D = list_get(b)
+
+# print(next(D))
+# print(next(D))
+# print(next(D))
+# print(next(D))
+# print('List Sum is {0}'.format(list_sum(b)))
+# print('List Product is {0}'.format(list_product(b)))
+# print('List Max Value is {0}'.format(list_max(b)))
+# print('List Min value is {0}'.format(list_min(b)))
+
+c = [-4,5,18,7,19,21,-99,107,88,-320]
+# print(list_pos(c))
+# print(list_neg(c))
+evens = list_get_even(c)
+odds = list_get_odd(c)
+positives = list_get_pos(c)
+negatives = list_get_neg(c)
+
+print('Evens:')
+print(next(evens))
+print(next(evens))
+
+print('Odds:')
+print(next(odds))
+print(next(odds))
+
+print('Positives:')
+print(next(positives))
+print(next(positives))
+
+print('Negatives')
+print(next(negatives))
+print(next(negatives))
+
+# print(list_odd(a))
+# print(list_even(a))
+# print(list_odd(b))
+# print(list_even(b))
 # c = [-1, -4, 5, 9]
 # print(list(map(lambda x,y:x+y, a,b)))
 # print(list(map(lambda x,y,z:x+y+z, a,b,c)))
@@ -84,12 +106,12 @@ print(C)
 lista = [ 1 , 3, 5, 6, 2, ] 
 
 # list functions with 
-sumlist = reduce(lambda x,y: x+y,lista)
-maxlist = reduce(lambda x,y: x if x>y else y,lista)
-minlist = reduce(lambda x,y: x if x<y else y,lista)
-print(sumlist)
-print(maxlist)
-print(minlist)
+# sumlist = reduce(lambda x,y: x+y,lista)
+# maxlist = reduce(lambda x,y: x if x>y else y,lista)
+# minlist = reduce(lambda x,y: x if x<y else y,lista)
+# print(sumlist)
+# print(maxlist)
+# print(minlist)
 
 # using reduce to compute maximum element from list 
 
