@@ -28,7 +28,7 @@ class StringUtility(object):
 def main():
     test = StringUtility
     text = 'How now a brown cow'
-    # print(test.count_vowels(text))
-    # print(test.unique_vowels(text))
+    print(test.count_vowels(text))
+    print(test.unique_vowels(text))
     print(test.count_spaces(text))
 main()

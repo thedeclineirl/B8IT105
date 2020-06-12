@@ -18,11 +18,10 @@ headers = {
 
 response = requests.get('https://en.wikipedia.org/wiki/COVID-19_pandemic_in_the_Republic_of_Ireland', headers=headers)
 soup = BeautifulSoup(response.content, features="html.parser")
-soup2 = soup.prettify()
 table_count = 0
-for table in soup2.find_all('table'):
-    print(table)
-    print(table.caption)
+for table in soup.find_all('table'):
+    # print(table)
+    # print(table.caption)
     table_count+=1
 
 print(table_count)
